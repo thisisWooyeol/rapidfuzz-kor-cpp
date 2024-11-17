@@ -99,10 +99,10 @@ inline const std::array<std::wstring, 10> HANGUL_NUMBERS_FOR_DECIMAL = {
 };
 
 inline const std::array<std::wstring, 4> HANGUL_CARDINAL = {
-    L"",
-    L"십",
-    L"백",
     L"천",
+    L"백",
+    L"십",
+    L"",
 };
 
 } // namespace _Internal
