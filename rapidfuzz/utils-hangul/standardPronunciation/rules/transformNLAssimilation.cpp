@@ -49,7 +49,7 @@ ReturnSyllables transformNLAssimilation(const Syllable& currentSyllable, const S
 /**
  * @brief Handles the 'ㄴ,ㄹ' Assimilation condition.
  */
-ReturnSyllables applyNLAssimilation(const Syllable& current, const Syllable& next)
+ReturnSyllables applyㄴㄹ덧남(const Syllable& current, const Syllable& next)
 {
     Syllable updatedCurrent = current;
     Syllable updatedNext = next;
