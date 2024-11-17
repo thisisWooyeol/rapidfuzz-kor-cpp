@@ -126,7 +126,7 @@ DecompositionResult 음절분해(const std::wstring& hangulPhrase)
     for (size_t index = 0; index < hangulPhrase.size(); ++index) {
         const wchar_t syllable = hangulPhrase[index];
         std::wstring syllableStr(1, syllable);
-        if (!_Internal::isHangulCharacter(syllable) || _Internal::isHangulAlphabet(syllable)) {
+        if (!_Internal::isHangulCharacter(syllableStr) || _Internal::isHangulAlphabet(syllableStr)) {
             // Non-Hangul character
             result.notHangulPhrase.emplace_back(NotHangul{static_cast<int>(index), syllableStr});
         }
