@@ -11,9 +11,6 @@ namespace Utils {
 namespace Hangul {
 namespace _Internal {
 
-// Note: C++ does not have built-in Unicode normalization functions.
-// The following array needs to be precomputed or handled with a Unicode library.
-// Placeholder for _JASO_HANGUL_NFD
 inline const std::array<wchar_t, 6> _JASO_HANGUL_NFD = {
     L'ㄱ', // START_CHOSEONG: 'ㄱ'
     L'ㅏ', // START_JUNGSEONG: 'ㅏ'
