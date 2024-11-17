@@ -1,7 +1,7 @@
 #ifndef SUSA_HPP
 #define SUSA_HPP
 
-#include <string>
+#include "constants.hpp"
 
 namespace RapidFuzz {
 namespace Utils {

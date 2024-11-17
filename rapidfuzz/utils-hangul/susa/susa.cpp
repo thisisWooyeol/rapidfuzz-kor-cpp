@@ -1,8 +1,6 @@
 #include "susa.hpp"
-#include "constants.hpp"
-#include <cassert>
 #include <stdexcept>
-#include <unordered_map>
+#include <string>
 
 namespace RapidFuzz {
 namespace Utils {
@@ -30,8 +28,6 @@ void validateNumber(int num)
  */
 std::wstring getNumberWord(int num)
 {
-    using namespace RapidFuzz::Utils::Hangul::Susa;
-
     if (num == 100) {
         return SUSA_MAP.at(100);
     }
@@ -53,10 +49,8 @@ std::wstring getNumberWord(int num)
  */
 std::wstring getClassifierWord(int num)
 {
-    using namespace RapidFuzz::Utils::Hangul::Susa;
-
     if (num == 20) {
-        return SUSA_CLASSIFIER_MAP.at(20);
+        return SUSA_CLASSIFIER_MAP.at(num);
     }
 
     int tens = (num / 10) * 10;
