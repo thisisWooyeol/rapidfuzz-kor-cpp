@@ -9,7 +9,7 @@ std::wstring romanizeSyllableHangul(const std::wstring& syllable,
                                     const std::vector<std::wstring>& arrayHangul, size_t index)
 {
     // Check if the syllable is a Hangul character
-    if (_Internal::isHangulCharacter(syllable[0])) {
+    if (_Internal::isHangulCharacter(syllable)) {
         auto disassemble =
             DisassembleCompleteCharacter::disassembleCompleteCharacter(std::wstring(1, syllable[0]));
         if (!disassemble.has_value()) {
@@ -49,7 +49,7 @@ std::wstring romanizeSyllableHangul(const std::wstring& syllable,
 
         // Special handling for 'ㄹ'
         if (choseong == L"ㄹ") {
-            if (index > 0 && _Internal::isHangulCharacter(arrayHangul[index - 1][0])) {
+            if (index > 0 && _Internal::isHangulCharacter(arrayHangul[index - 1])) {
                 auto prevDisassemble = DisassembleCompleteCharacter::disassembleCompleteCharacter(
                     std::wstring(1, arrayHangul[index - 1][0]));
                 if (prevDisassemble.has_value() && prevDisassemble->jongseong == L"ㄹ") {
