@@ -21,21 +21,15 @@ namespace NumberToHangulMixed {
  */
 std::wstring formatWithThousandSeparators(long long num)
 {
-    std::wstringstream ss;
-    ss.imbue(std::locale("")); // Use the user's default locale
+    std::wstring numStr = std::to_wstring(num);
+    int pos = numStr.length() % 3;
+    std::wstring formatted = numStr.substr(0, pos);
 
-    ss << std::fixed << num;
-    std::wstring numStr = ss.str();
-
-    // Insert thousand separators
-    std::wstring formatted;
-    int count = 0;
-    for (auto it = numStr.rbegin(); it != numStr.rend(); ++it) {
-        if (count && count % 3 == 0) {
-            formatted.insert(formatted.begin(), L',');
+    for (int i = pos; i < numStr.length(); i += 3) {
+        if (!formatted.empty()) {
+            formatted += L",";
         }
-        formatted.insert(formatted.begin(), *it);
-        count++;
+        formatted += numStr.substr(i, 3);
     }
 
     return formatted;
@@ -65,8 +59,10 @@ std::wstring numberToHangulMixed(long long input, bool spacing)
     std::wstring remainingDigits = std::to_wstring(input);
     int placeIndex = 0;
 
+    // 4 자리씩 끊어서 변환, e.g. 123456789 -> [6789, 2345, 1]
+    // 이후 역방향 순회를 통해 1, 2345, 6789 순으로 변환
     while (!remainingDigits.empty()) {
-        std::wstring currentPart;
+        std::wstring currentPart = L"";
         if (remainingDigits.length() > 4) {
             currentPart = remainingDigits.substr(remainingDigits.length() - 4, 4);
             remainingDigits = remainingDigits.substr(0, remainingDigits.length() - 4);
@@ -86,30 +82,16 @@ std::wstring numberToHangulMixed(long long input, bool spacing)
         placeIndex++;
     }
 
-    // Remove empty parts and ensure proper ordering
-    koreanParts.erase(std::remove_if(koreanParts.begin(), koreanParts.end(),
-                                     [](const std::wstring& part) { return part.empty(); }),
-                      koreanParts.end());
-
-    if (spacing) {
-        // Join with spaces
-        std::wstring result = L"";
-        for (size_t i = 0; i < koreanParts.size(); ++i) {
-            result += koreanParts[i];
-            if (i != koreanParts.size() - 1) {
-                result += L" ";
-            }
+    std::wstring result = L"";
+    for (auto it = koreanParts.rbegin(); it != koreanParts.rend(); ++it) {
+        if (*it != L"") { // Skip empty parts
+            result += *it;
         }
-        return result;
-    }
-    else {
-        // Join without spaces
-        std::wstring result = L"";
-        for (const auto& part : koreanParts) {
-            result += part;
+        if (spacing && it != koreanParts.rend() - 1) {
+            result += L" ";
         }
-        return result;
     }
+    return result;
 }
 
 } // namespace NumberToHangulMixed
