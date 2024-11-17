@@ -13,14 +13,18 @@ namespace Utils {
 namespace Hangul {
 namespace _Internal {
 
-bool isHangulCharacter(wchar_t character)
+bool isHangulCharacter(const std::wstring& character)
 {
-    return (character >= 0xAC00 && character <= 0xD7A3);
+    if (character.size() > 1) return false;
+    wchar_t w_char = character[0];
+    return (w_char >= L'가' && w_char <= L'힣');
 }
 
-bool isHangulAlphabet(wchar_t character)
+bool isHangulAlphabet(const std::wstring& character)
 {
-    return ((character >= L'ㄱ' && character <= L'ㅎ') || (character >= L'ㅏ' && character <= L'ㅣ'));
+    if (character.size() > 1) return false;
+    wchar_t w_char = character[0];
+    return ((w_char >= L'ㄱ' && w_char <= L'ㅎ') || (w_char >= L'ㅏ' && w_char <= L'ㅣ'));
 }
 
 bool isHangul(const std::wstring& actual)
@@ -33,7 +37,10 @@ bool isHangul(const std::wstring& actual)
 void assertHangul(const std::wstring& actual, const std::string& message)
 {
     if (!isHangul(actual)) {
-        throw std::invalid_argument(message.empty() ? "Input is not a valid Hangul string." : message);
+        std::string errorMessage =
+            message.empty() ? std::string(actual.begin(), actual.end()) + " is not a valid hangul string"
+                            : message;
+        throw std::invalid_argument(errorMessage);
     }
 }
 
@@ -71,17 +78,13 @@ std::variant<SafeParseSuccess, SafeParseError> safeParseHangul(const std::wstrin
  */
 std::wstring binaryAssembleAlphabets(const std::wstring& source, const std::wstring& nextCharacter)
 {
-    std::wstring combined;
-
     if (CanBe::canBeJungseong(source + nextCharacter)) {
-        combined = CombineCharacter::combineVowels(source, nextCharacter);
-        return combined;
+        return CombineCharacter::combineVowels(source, nextCharacter);
     }
 
     bool isConsonantSource = !CanBe::canBeJungseong(source);
     if (isConsonantSource && CanBe::canBeJungseong(nextCharacter)) {
-        combined = CombineCharacter::combineCharacter(source, nextCharacter);
-        return combined;
+        return CombineCharacter::combineCharacter(source, nextCharacter);
     }
 
     return joinString(source, nextCharacter);
@@ -123,11 +126,11 @@ std::wstring linkHangulCharacters(const std::wstring& source, const std::wstring
 std::wstring binaryAssembleCharacters(const std::wstring& source, const std::wstring& nextCharacter)
 {
     // Validate source and nextCharacter
-    if (!(isHangulCharacter(source[0]) || isHangulAlphabet(source[0]))) {
+    if (!(isHangulCharacter(source) || isHangulAlphabet(source))) {
         throw std::invalid_argument("Invalid source character: " + std::string(source.begin(), source.end()) +
                                     ". Source must be one character.");
     }
-    if (!isHangulAlphabet(nextCharacter[0])) {
+    if (!isHangulAlphabet(nextCharacter)) {
         throw std::invalid_argument(
             "Invalid next character: " + std::string(nextCharacter.begin(), nextCharacter.end()) +
             ". Next character must be one of the choseong, jungseong, or jongseong.");
@@ -144,11 +147,7 @@ std::wstring binaryAssembleCharacters(const std::wstring& source, const std::wst
     std::vector<std::wstring> restJamos;
     std::wstring lastJamo;
     std::tie(restJamos, lastJamo) = excludeLastElement(sourceJamos);
-
-    std::wstring secondaryLastJamo;
-    if (restJamos.size() >= 2) {
-        secondaryLastJamo = excludeLastElement(restJamos).second;
-    }
+    std::wstring secondaryLastJamo = excludeLastElement(restJamos).second;
 
     bool needLinking = CanBe::canBeChoseong(lastJamo) && CanBe::canBeJungseong(nextCharacter);
     if (needLinking) {
@@ -173,15 +172,28 @@ std::wstring binaryAssembleCharacters(const std::wstring& source, const std::wst
 
     auto fixVowel = combineJungseong;
 
-    auto combineJongseong = fixVowel(
-        CanBe::canBeJungseong(restJamos[1] + restJamos[2]) ? restJamos[1] + restJamos[2] : restJamos[1]);
+    // Check sizes before accessing restJamos[1] and restJamos[2]
+    std::wstring vowelToUse;
+    if (restJamos.size() >= 3 && CanBe::canBeJungseong(restJamos[1] + restJamos[2])) {
+        vowelToUse = restJamos[1] + restJamos[2];
+    }
+    else if (restJamos.size() >= 2) {
+        vowelToUse = restJamos[1];
+    }
+    else {
+        vowelToUse = L"";
+    }
 
-    std::wstring lastConsonant = lastJamo;
+    if (!vowelToUse.empty()) {
+        auto combineJongseong = fixVowel(vowelToUse);
 
-    if (HasBatchim::hasBatchim(source, /* options */ {}) &&
-        CanBe::canBeJongseong(lastConsonant + nextCharacter))
-    {
-        return combineJongseong(lastConsonant + nextCharacter);
+        std::wstring lastConsonant = lastJamo;
+
+        if (HasBatchim::hasBatchim(source, {HasBatchim::OnlyType::SINGLE}) &&
+            CanBe::canBeJongseong(lastConsonant + nextCharacter))
+        {
+            return combineJongseong(lastConsonant + nextCharacter);
+        }
     }
 
     return joinString(source, nextCharacter);
