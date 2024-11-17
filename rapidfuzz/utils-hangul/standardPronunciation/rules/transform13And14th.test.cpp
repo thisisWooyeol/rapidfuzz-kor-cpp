@@ -20,6 +20,7 @@ TEST_CASE("transform13And14th", "[transform13And14th]")
         const auto& next = defined(disassembleCompleteCharacter(L"아"));
 
         const auto& result = transform13And14th(current, next);
+
         REQUIRE(result.current.choseong == L"ㄲ");
         REQUIRE(result.current.jungseong == L"ㅏ");
         REQUIRE(result.current.jongseong == L"");
@@ -35,6 +36,7 @@ TEST_CASE("transform13And14th", "[transform13And14th]")
         const auto& next = defined(disassembleCompleteCharacter(L"을"));
 
         const auto& result = transform13And14th(current, next);
+
         REQUIRE(result.current.choseong == L"ㄷ");
         REQUIRE(result.current.jungseong == L"ㅏ");
         REQUIRE(result.current.jongseong == L"ㄹ");

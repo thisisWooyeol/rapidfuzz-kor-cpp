@@ -21,6 +21,7 @@ TEST_CASE("transform9And10And11th", "[transform9And10And11th]")
         const auto& next = disassembleCompleteCharacter(L"다");
 
         const auto& result = transform9And10And11th(current, next);
+
         REQUIRE(result.current.choseong == L"ㄷ");
         REQUIRE(result.current.jungseong == L"ㅏ");
         REQUIRE(result.current.jongseong == L"ㄱ");
@@ -33,6 +34,7 @@ TEST_CASE("transform9And10And11th", "[transform9And10And11th]")
         const auto& next = disassembleCompleteCharacter(L"다");
 
         const auto& result = transform9And10And11th(current, next);
+
         REQUIRE(result.current.choseong == L"ㅇ");
         REQUIRE(result.current.jungseong == L"ㅏ");
         REQUIRE(result.current.jongseong == L"ㄴ");
@@ -45,6 +47,7 @@ TEST_CASE("transform9And10And11th", "[transform9And10And11th]")
         const auto& next = disassembleCompleteCharacter(L"과");
 
         const auto& result = transform9And10And11th(current, next);
+
         REQUIRE(result.current.choseong == L"ㅎ");
         REQUIRE(result.current.jungseong == L"ㅡ");
         REQUIRE(result.current.jongseong == L"ㄱ");

@@ -21,6 +21,7 @@ TEST_CASE("transform12th", "[transform12th]")
         const auto& next = disassembleCompleteCharacter(L"고");
 
         const auto& result = transform12th(current, next);
+
         REQUIRE(result.current.choseong == L"ㄴ");
         REQUIRE(result.current.jungseong == L"ㅗ");
         REQUIRE(result.current.jongseong == L"");
@@ -38,6 +39,7 @@ TEST_CASE("transform12th", "[transform12th]")
         const auto& next = disassembleCompleteCharacter(L"하");
 
         const auto& result = transform12th(current, next);
+
         REQUIRE(result.current.choseong == L"ㄱ");
         REQUIRE(result.current.jungseong == L"ㅏ");
         REQUIRE(result.current.jongseong == L"");
@@ -54,6 +56,7 @@ TEST_CASE("transform12th", "[transform12th]")
         const auto& next = disassembleCompleteCharacter(L"소");
 
         const auto& result = transform12th(current, next);
+
         REQUIRE(result.current.choseong == L"ㄷ");
         REQUIRE(result.current.jungseong == L"ㅏ");
         REQUIRE(result.current.jongseong == L"");
@@ -70,6 +73,7 @@ TEST_CASE("transform12th", "[transform12th]")
         const auto& next = disassembleCompleteCharacter(L"는");
 
         const auto& result = transform12th(current, next);
+
         REQUIRE(result.current.choseong == L"ㄴ");
         REQUIRE(result.current.jungseong == L"ㅗ");
         REQUIRE(result.current.jongseong == L"");
@@ -86,6 +90,7 @@ TEST_CASE("transform12th", "[transform12th]")
         const auto& next = disassembleCompleteCharacter(L"네");
 
         const auto& result = transform12th(current, next);
+
         REQUIRE(result.current.choseong == L"ㅇ");
         REQUIRE(result.current.jungseong == L"ㅏ");
         REQUIRE(result.current.jongseong == L"ㄴ");
@@ -102,6 +107,7 @@ TEST_CASE("transform12th", "[transform12th]")
         const auto& next = disassembleCompleteCharacter(L"은");
 
         const auto& result = transform12th(current, next);
+
         REQUIRE(result.current.choseong == L"ㄴ");
         REQUIRE(result.current.jungseong == L"ㅏ");
         REQUIRE(result.current.jongseong == L"");
@@ -118,6 +124,7 @@ TEST_CASE("transform12th", "[transform12th]")
         const auto& next = std::nullopt;
 
         const auto& result = transform12th(current, next);
+
         REQUIRE(result.current.choseong == L"ㅁ");
         REQUIRE(result.current.jungseong == L"ㅏ");
         REQUIRE(result.current.jongseong == L"ㄴ");
