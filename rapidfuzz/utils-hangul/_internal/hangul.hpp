@@ -11,9 +11,9 @@ namespace Utils {
 namespace Hangul {
 namespace _Internal {
 
-bool isHangulCharacter(wchar_t character);
+bool isHangulCharacter(const std::wstring& character);
 
-bool isHangulAlphabet(wchar_t character);
+bool isHangulAlphabet(const std::wstring& character);
 
 bool isHangul(const std::wstring& actual);
 
