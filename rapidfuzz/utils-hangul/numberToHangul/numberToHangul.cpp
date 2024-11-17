@@ -24,6 +24,8 @@ std::wstring numberToHangul(long long input, bool spacing)
     std::wstring remainingDigits = std::to_wstring(input);
     int placeIndex = 0;
 
+    // 4 자리씩 끊어서 변환, e.g. 123456789 -> [6789, 2345, 1]
+    // 이후 역방향 순회를 통해 1, 2345, 6789 순으로 변환
     while (!remainingDigits.empty()) {
         std::wstring currentPart = L"";
         if (remainingDigits.length() > 4) {
@@ -45,30 +47,16 @@ std::wstring numberToHangul(long long input, bool spacing)
         placeIndex++;
     }
 
-    // Remove empty parts
-    koreanParts.erase(std::remove_if(koreanParts.begin(), koreanParts.end(),
-                                     [](const std::wstring& part) { return part.empty(); }),
-                      koreanParts.end());
-
-    if (spacing) {
-        // Join with spaces
-        std::wstring result = L"";
-        for (size_t i = 0; i < koreanParts.size(); ++i) {
-            result += koreanParts[i];
-            if (i != koreanParts.size() - 1) {
-                result += L" ";
-            }
+    std::wstring result = L"";
+    for (auto it = koreanParts.rbegin(); it != koreanParts.rend(); ++it) {
+        if (*it != L"") { // Skip empty parts
+            result += *it;
         }
-        return result;
-    }
-    else {
-        // Join without spaces
-        std::wstring result = L"";
-        for (const auto& part : koreanParts) {
-            result += part;
+        if (spacing && it != koreanParts.rend() - 1) {
+            result += L" ";
         }
-        return result;
     }
+    return result;
 }
 
 /**
@@ -77,7 +65,7 @@ std::wstring numberToHangul(long long input, bool spacing)
 std::wstring numberToKoreanUpToThousand(int num)
 {
     if (num < 0 || num > 9999) {
-        throw std::invalid_argument("숫자는 0 이상 9999 이하이어야 합니다.");
+        throw std::invalid_argument("0 이상 9999 이하의 숫자만 입력 가능합니다.");
     }
 
     if (num == 0) {
