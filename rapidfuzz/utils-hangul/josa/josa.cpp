@@ -100,6 +100,7 @@ std::wstring josaPicker(const std::wstring& word, JosaOption josa)
 
 std::wstring josa(const std::wstring& word, JosaOption josa)
 {
+    if (word.empty()) return word;
     return word + josaPicker(word, josa);
 }
 
