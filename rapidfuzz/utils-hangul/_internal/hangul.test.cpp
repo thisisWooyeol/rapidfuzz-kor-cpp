@@ -123,12 +123,12 @@ TEST_CASE("binaryAssembleCharacters", "[binaryAssembleCharacters]")
     }
 
     SECTION("초성과 중성과 종성이 합쳐진 문자와 자음을 조합하여 겹받침 만들기")
-    { // 에러
+    {
         REQUIRE(binaryAssembleCharacters(L"갑", L"ㅅ") == L"값");
     }
 
     SECTION("초성과 중성이 합쳐진 문자와 모음을 조립하여 겹모음 만들기")
-    { // 에러
+    {
         REQUIRE(binaryAssembleCharacters(L"고", L"ㅏ") == L"과");
     }
 
@@ -138,12 +138,12 @@ TEST_CASE("binaryAssembleCharacters", "[binaryAssembleCharacters]")
     }
 
     SECTION("초성과 중성과 종성이 합쳐진 문자와 자음을 조합하여 겹받침 만들기")
-    { // 에러
+    {
         REQUIRE(binaryAssembleCharacters(L"완", L"ㅈ") == L"왅");
     }
 
     SECTION("모음만 있는 문자와 모음을 조합하여 겹모음 만들기")
-    { // 에러
+    {
         REQUIRE(binaryAssembleCharacters(L"ㅗ", L"ㅏ") == L"ㅘ");
     }
 
@@ -171,7 +171,7 @@ TEST_CASE("binaryAssembleCharacters", "[binaryAssembleCharacters]")
     }
 
     SECTION("순서대로 입력했을 때 조합이 불가능한 문자라면 단순 Join 한다.")
-    { // 에러
+    {
         REQUIRE(binaryAssembleCharacters(L"뼈", L"ㅣ") == L"뼈ㅣ");
     }
 
@@ -190,7 +190,7 @@ TEST_CASE("binaryAssembleCharacters", "[binaryAssembleCharacters]")
                        "jungseong, or jongseong.");
         REQUIRE_THROWS(binaryAssembleCharacters(L"ㄱ", L"ㅡㅏ"),
                        "Invalid next character: ㅡㅏ. Next character must be one of the choseong, "
-                       "jungseong, or jongseong."); // 에러
+                       "jungseong, or jongseong.");
     }
 }
 
@@ -212,13 +212,13 @@ TEST_CASE("binaryAssemble", "[binaryAssemble]")
     }
 
     SECTION("조합이 불가능한 자음이 입력되면 단순 Join 한다.")
-    { // segfault
+    {
         REQUIRE(binaryAssemble(L"저는 고양이를 좋아합", L"ㄲ") == L"저는 고양이를 좋아합ㄲ");
         REQUIRE(binaryAssemble(L"저는 고양이를 좋아합", L"ㅂ") == L"저는 고양이를 좋아합ㅂ");
     }
 
     SECTION("조합이 불가능한 모음이 입력되면 단순 Join 한다.")
-    { // segfault
+    {
         REQUIRE(binaryAssemble(L"저는 고양이를 좋아하", L"ㅏ") == L"저는 고양이를 좋아하ㅏ");
         REQUIRE(binaryAssemble(L"저는 고양이를 좋아합니다", L"ㅜ") == L"저는 고양이를 좋아합니다ㅜ");
     }
