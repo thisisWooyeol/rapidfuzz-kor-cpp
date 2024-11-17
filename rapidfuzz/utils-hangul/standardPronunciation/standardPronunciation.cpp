@@ -122,17 +122,16 @@ std::vector<Syllable> processSyllables(std::vector<Syllable>& syllables, const s
  */
 DecompositionResult 음절분해(const std::wstring& hangulPhrase)
 {
-    DecompositionResult result;
+    DecompositionResult result{};
     for (size_t index = 0; index < hangulPhrase.size(); ++index) {
-        const wchar_t syllable = hangulPhrase[index];
-        std::wstring syllableStr(1, syllable);
-        if (!_Internal::isHangulCharacter(syllableStr) || _Internal::isHangulAlphabet(syllableStr)) {
+        const std::wstring syllable(1, hangulPhrase[index]);
+        if (!_Internal::isHangulCharacter(syllable) || _Internal::isHangulAlphabet(syllable)) {
             // Non-Hangul character
-            result.notHangulPhrase.emplace_back(NotHangul{static_cast<int>(index), syllableStr});
+            result.notHangulPhrase.emplace_back(NotHangul{static_cast<int>(index), syllable});
         }
         else {
             // Hangul syllable
-            auto disassembled = DisassembleCompleteCharacter::disassembleCompleteCharacter(syllableStr);
+            auto disassembled = DisassembleCompleteCharacter::disassembleCompleteCharacter(syllable);
             if (disassembled.has_value()) {
                 result.disassembleHangul.emplace_back(disassembled.value());
             }
@@ -148,12 +147,12 @@ DecompositionResult 음절분해(const std::wstring& hangulPhrase)
  * @param notHangulPhrase The vector of non-Hangul characters with their indices.
  * @return The final transformed Hangul phrase as a std::wstring.
  */
-std::wstring assembleChangedHangul(const std::vector<Syllable>& processedSyllables,
+std::wstring assembleChangedHangul(const std::vector<Syllable>& disassembleHangul,
                                    const std::vector<NotHangul>& notHangulPhrase)
 {
     std::wstring changedSyllables;
     size_t syllableIndex = 0;
-    size_t totalLength = processedSyllables.size() + notHangulPhrase.size();
+    size_t totalLength = disassembleHangul.size() + notHangulPhrase.size();
 
     // Create a map of index to non-Hangul syllable for quick lookup
     std::unordered_map<int, std::wstring> nonHangulMap;
@@ -167,11 +166,11 @@ std::wstring assembleChangedHangul(const std::vector<Syllable>& processedSyllabl
         if (it != nonHangulMap.end()) {
             changedSyllables += it->second;
         }
-        else if (syllableIndex < processedSyllables.size()) {
+        else if (syllableIndex < disassembleHangul.size()) {
             // Combine the syllable into a single character
             changedSyllables += CombineCharacter::combineCharacter(
-                processedSyllables[syllableIndex].choseong, processedSyllables[syllableIndex].jungseong,
-                processedSyllables[syllableIndex].jongseong);
+                disassembleHangul[syllableIndex].choseong, disassembleHangul[syllableIndex].jungseong,
+                disassembleHangul[syllableIndex].jongseong);
             syllableIndex++;
         }
     }
@@ -222,12 +221,11 @@ std::wstring standardizePronunciation(const std::wstring& hangul, const Options&
 
     // Transform each phrase and concatenate the results with spaces
     std::wstring transformed;
-    for (size_t i = 0; i < phrases.size(); ++i) {
-        transformed += transformHangulPhrase(phrases[i], options);
-        if (i != phrases.size() - 1) {
-            transformed += L' ';
-        }
+    for (const auto& phrase : phrases) {
+        transformed += transformHangulPhrase(phrase, options);
+        transformed += L' ';
     }
+    transformed.pop_back(); // Remove the trailing space
 
     return transformed;
 }

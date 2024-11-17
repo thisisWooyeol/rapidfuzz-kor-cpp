@@ -32,7 +32,7 @@ namespace StandardPronunciation {
  * @brief Options for the standardizePronunciation function.
  */
 struct Options {
-    bool hardConversion = true; ///< Whether to apply hard consonant assimilation (경음화). Default is true.
+    bool hardConversion; ///< Whether to apply hard consonant assimilation (경음화)
 };
 
 /**
@@ -62,7 +62,7 @@ struct ApplyParameters {
  * @param options.hardConversion 경음화 등의 된소리를 적용할지 여부를 설정합니다. 기본값은 true입니다.
  * @return 변환된 표준 발음 문자열을 반환합니다.
  */
-std::wstring standardizePronunciation(const std::wstring& hangul, const Options& options = Options());
+std::wstring standardizePronunciation(const std::wstring& hangul, const Options& options = {true});
 
 } // namespace StandardPronunciation
 } // namespace Hangul
