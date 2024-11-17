@@ -17,7 +17,7 @@ namespace Rules {
  * Syllable syllable = {L"ㅇ", L"ㅏ", L"ㄹㅎ"};
  * std::wstring newJongseong = replace받침ㅎ(syllable); // newJongseong = L"ㄹ"
  */
-std::wstring replaceBatchimH(const Syllable& currentSyllable)
+std::wstring replace받침ㅎ(const Syllable& currentSyllable)
 {
     if (currentSyllable.jongseong.empty()) {
         return L"";
