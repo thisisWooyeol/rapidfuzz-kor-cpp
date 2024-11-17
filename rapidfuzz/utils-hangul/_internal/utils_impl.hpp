@@ -27,7 +27,7 @@ bool isNotUndefined(const std::optional<T>& value)
 template <typename T>
 T defined(const std::optional<T>& value)
 {
-    assertCondition(value.has_value(), L"Value is undefined");
+    assertCondition(value.has_value(), "Value is undefined");
     return value.value();
 }
 

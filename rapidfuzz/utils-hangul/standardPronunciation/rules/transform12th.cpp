@@ -175,7 +175,7 @@ NullableReturnSyllables handleNextChoseongIsㅎ(const Syllable& current, const N
             if (updatedCurrent.jongseong.length() == 1) {
                 updatedCurrent.jongseong = L"";
             }
-            else if (updatedCurrent.jongseong.length() > 1) {
+            else {
                 // Set jongseong to the first character
                 updatedCurrent.jongseong = std::wstring(1, updatedCurrent.jongseong[0]);
             }
