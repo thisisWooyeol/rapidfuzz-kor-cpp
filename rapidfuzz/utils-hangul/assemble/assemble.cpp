@@ -16,13 +16,17 @@ std::wstring assemble(const std::vector<std::wstring>& words)
     // Disassemble the joined string into individual characters
     std::wstring disassembled = Disassemble::disassemble(joinedWords);
 
-    // Split the disassembled string into a vector of characters
-    std::vector<wchar_t> characters(disassembled.begin(), disassembled.end());
+    // Handle empty disassembled string
+    if (disassembled.empty()) {
+        return L"";
+    }
+
+    // Initialize the assembled string with the first character
+    std::wstring assembled(1, disassembled[0]);
 
     // Reduce the vector of characters using binaryAssemble to form the final assembled string
-    std::wstring assembled;
-    for (const auto& ch : characters) {
-        assembled = _Internal::binaryAssemble(assembled, std::wstring(1, ch));
+    for (size_t i = 1; i < disassembled.size(); ++i) {
+        assembled = _Internal::binaryAssemble(assembled, std::wstring(1, disassembled[i]));
     }
 
     return assembled;
