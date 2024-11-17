@@ -35,7 +35,10 @@ ReturnSyllables transform16th(const Apply16항& params)
     }
 
     // Ensure that index is valid to access phrase[index - 1]
-    if (params.index <= 0 || params.index >= params.phrase.length()) {
+    if (params.index == 0) {
+        return ReturnSyllables{current, next};
+    }
+    if (params.index < 0 || params.index >= params.phrase.length()) {
         throw std::out_of_range("Invalid index for combinedSyllables calculation.");
     }
 
