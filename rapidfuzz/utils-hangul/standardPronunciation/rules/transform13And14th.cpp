@@ -115,8 +115,7 @@ ReturnSyllables handle겹받침(const Syllable& current, const Syllable& next)
             updatedNext.choseong = std::wstring(1, updatedCurrent.jongseong[1]);
         }
 
-        // Remove the second consonant from the current syllable's jongseong
-        updatedCurrent.jongseong = replace받침ㅎ(updatedCurrent);
+        updatedCurrent.jongseong = std::wstring(1, updatedCurrent.jongseong[0]);
     }
 
     return ReturnSyllables{updatedCurrent, updatedNext};
