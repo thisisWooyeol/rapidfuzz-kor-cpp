@@ -1,6 +1,7 @@
 #include "getChoseong.hpp"
-#include <algorithm>
-#include <locale>
+#include "_internal/constants.hpp"
+#include <unicode/normalizer2.h>
+#include <unicode/unistr.h>
 
 namespace RapidFuzz {
 namespace Utils {
@@ -17,18 +18,50 @@ namespace GetChoseong {
  * @param input The input wide string to normalize.
  * @return A `std::wstring` normalized to NFD.
  *
- * @throws `std::runtime_error` if normalization fails.
+ * @throws `std::invalid_argument` if normalization fails.
  */
 std::wstring normalizeNFD(const std::wstring& input)
 {
-    // TODO: Implement Unicode normalization to NFD using a library like ICU or Boost.Locale.
-    // This is a stub implementation.
-    // Example with Boost.Locale:
-    // return boost::locale::normalize(input, boost::locale::normalize::nfd);
+    UErrorCode errorCode = U_ZERO_ERROR;
+    const icu::Normalizer2* normalizer = icu::Normalizer2::getNFDInstance(errorCode);
 
-    // Since normalization is not implemented, return the input as-is.
-    // In production code, you must implement this properly.
-    return input;
+    if (U_FAILURE(errorCode)) {
+        throw std::invalid_argument("Failed to get NFD normalizer");
+    }
+
+    // Convert std::wstring to ICU UnicodeString
+    icu::UnicodeString uInput =
+        icu::UnicodeString::fromUTF32(reinterpret_cast<const UChar32*>(input.c_str()), input.length());
+
+    // Normalize to NFD
+    icu::UnicodeString uOutput;
+    normalizer->normalize(uInput, uOutput, errorCode);
+
+    if (U_FAILURE(errorCode)) {
+        throw std::invalid_argument("Normalization to NFD failed");
+    }
+
+    // Determine the number of UTF-32 code points
+    int32_t utf32Length = uOutput.countChar32();
+
+    // Allocate space in the output wstring
+    std::wstring output;
+    output.reserve(utf32Length);
+
+    // Temporary buffer to hold the UTF-32 code points
+    std::vector<UChar32> buffer(utf32Length);
+    uOutput.toUTF32(buffer.data(), utf32Length, errorCode);
+
+    if (U_FAILURE(errorCode)) {
+        throw std::invalid_argument("Conversion from UnicodeString to std::wstring failed");
+    }
+
+    // Assign the code points to the wstring
+    for (int32_t i = 0; i < utf32Length; ++i) {
+        output.push_back(static_cast<wchar_t>(buffer[i]));
+    }
+
+    return output;
 }
 
 /**
@@ -43,68 +76,36 @@ std::wstring normalizeNFD(const std::wstring& input)
  */
 std::wstring getChoseong(const std::wstring& word)
 {
-    // Step 1: Normalize the input string to NFD
-    std::wstring normalized;
-    try {
-        normalized = normalizeNFD(word);
-    }
-    catch (const std::exception& e) {
-        throw std::invalid_argument("Normalization to NFD failed: " + std::string(e.what()));
-    }
+    std::wstring normalized = normalizeNFD(word);
 
-    // Step 2: Define the regex patterns
-    // EXTRACT_CHOSEOONG_REGEX: Remove all characters except Jaso Hangul Choseong, basic consonants (ㄱ-ㅎ),
-    // and whitespace
-    std::wregex extractChoseongRegex(L"[^\\u" + std::to_wstring(JASO_HANGUL_NFD.START_CHOSEONG) + L"-\\u" +
-                                         std::to_wstring(JASO_HANGUL_NFD.END_CHOSEONG) + L"ㄱ-ㅎ\\s]+",
-                                     std::regex_constants::ECMAScript | std::regex_constants::optimize);
+    // NFD ㄱ-ㅎ, NFC ㄱ-ㅎ 외 문자 삭제
+    std::wstring filtered = std::regex_replace(normalized, EXTRACT_CHOSEONG_REGEX, L"");
 
-    // CHOOSE_NFD_CHOSEONG_REGEX: Match Jaso Hangul Choseong characters
-    std::wregex chooseNfdChoseongRegex(L"[\\u" + std::to_wstring(JASO_HANGUL_NFD.START_CHOSEONG) + L"-\\u" +
-                                           std::to_wstring(JASO_HANGUL_NFD.END_CHOSEONG) + L"]",
-                                       std::regex_constants::ECMAScript | std::regex_constants::optimize);
-
-    // Step 3: Remove unwanted characters using EXTRACT_CHOSEOONG_REGEX
-    std::wstring filtered = std::regex_replace(normalized, extractChoseongRegex, L"");
-
-    // Step 4: Replace NFD Choseong with corresponding CHOSEONGS
-    // Since C++ regex_replace does not support lambda replacements, perform manual replacement
+    // NFD to NFC
     std::wstring result;
     result.reserve(filtered.size());
 
-    std::wsmatch match;
-    std::wstring::const_iterator searchStart(filtered.cbegin());
-    while (std::regex_search(searchStart, filtered.cend(), match, chooseNfdChoseongRegex)) {
-        // Append the text before the match
-        result.append(match.prefix());
+    for (wchar_t wc : filtered) {
+        if (static_cast<int>(wc) >= static_cast<int>(JASO_HANGUL_NFD::START_CHOSEONG) &&
+            static_cast<int>(wc) <= static_cast<int>(JASO_HANGUL_NFD::END_CHOSEONG))
+        {
+            // Calculate the index into the CHOSEONGS array
+            // 0x1100 : 'ㄱ' (NFC Choseong)
+            int index = static_cast<int>(wc) - 0x1100;
 
-        // Get the matched character
-        std::wstring matchedChar = match[0];
-
-        // Calculate the index: matchedChar.codepoint - 0x1100
-        // Assuming that JASO_HANGUL_NFD::START_CHOSEOONG is 0x1100
-        if (matchedChar.size() != 1) {
-            // Unexpected character length, skip replacement
-            result.append(matchedChar);
-        }
-        else {
-            wchar_t wc = matchedChar[0];
-            int index = static_cast<int>(wc) - JASO_HANGUL_NFD.START_CHOSEONG;
-            if (index >= 0 && index < static_cast<int>(_Internal::CHOSEONGS.size())) {
+            // Replace with the corresponding NFC Choseong character
+            if (index >= 0 && index < _Internal::CHOSEONGS.size()) {
                 result += _Internal::CHOSEONGS[index];
             }
             else {
-                // Index out of range, append the original character
-                result += matchedChar;
+                result += wc;
             }
         }
-
-        // Update the search start position
-        searchStart = match.suffix().first;
+        else {
+            // Append the character as is (e.g., NFC Choseong characters or whitespace)
+            result += wc;
+        }
     }
-
-    // Append the remaining part of the string
-    result.append(searchStart, filtered.cend());
 
     return result;
 }
