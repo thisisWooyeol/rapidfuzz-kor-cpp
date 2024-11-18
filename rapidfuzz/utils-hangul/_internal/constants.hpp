@@ -11,15 +11,6 @@ namespace Utils {
 namespace Hangul {
 namespace _Internal {
 
-inline const std::array<wchar_t, 6> _JASO_HANGUL_NFD = {
-    L'ㄱ', // START_CHOSEONG: 'ㄱ'
-    L'ㅏ', // START_JUNGSEONG: 'ㅏ'
-    L'ㄱ', // START_JONGSEONG: 'ㄱ'
-    L'ㅎ', // END_CHOSEONG: 'ㅎ'
-    L'ㅣ', // END_JUNGSEONG: 'ㅣ'
-    L'ㅎ'  // END_JONGSEONG: 'ㅎ'
-};
-
 /**
  * @brief Complete Hangul syllables start code point ('가' - U+AC00)
  */
