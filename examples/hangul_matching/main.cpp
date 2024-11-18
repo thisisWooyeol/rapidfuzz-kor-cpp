@@ -20,9 +20,11 @@ int main()
     std::cout << "이를 해결하기 위해 다양한 전처리 옵션을 제공하여 보다 정확한 비교를 가능하게 합니다.\n\n";
     std::cout << "사용 가능한 전처리 옵션:\n";
     std::cout << "1 - QWERTY -> 한글 변환: 영문 QWERTY 자판으로 입력된 한글을 실제 한글로 변환합니다.\n";
-    std::cout << "2 - 표준 발음 적용: 한글의 표준 발음 규칙을 적용하여 발음상 동일한 문자열로 변환합니다.\n";
-    std::cout << "3 - 초성 추출: 한글 문자열에서 초성만 추출하여 비교합니다.\n";
-    std::cout << "4 - 로마자 변환: 한글 문자열을 로마자 표기법으로 변환하여 비교합니다.\n";
+    std::cout << "2 - 오타 재조합: 오타로 인해 분리된 한글을 다시 조합하여 정확한 한글로 변환합니다.\n";
+    std::cout << "    (예: ㅇㅏㄴ -> 안, ㄴㅕㅇ -> 녕)\n";
+    std::cout << "3 - 표준 발음 적용: 한글의 표준 발음 규칙을 적용하여 발음상 동일한 문자열로 변환합니다.\n";
+    std::cout << "4 - 초성 추출: 한글 문자열에서 초성만 추출하여 비교합니다.\n";
+    std::cout << "5 - 로마자 변환: 한글 문자열을 로마자 표기법으로 변환하여 비교합니다.\n";
     std::cout << "\n원하는 전처리 옵션을 선택하여 유사도 비교의 정확도를 높일 수 있습니다.\n";
     std::cout
         << "프로그램 사용을 시작하려면, 전처리 옵션을 선택한 후 비교할 두 개의 문자열을 입력하세요.\n\n";
@@ -35,14 +37,16 @@ int main()
     preprocessor.setLogLevel(LogLevel::Debug);
 
     // Get options
+    // ! FIXME: 2 번 옵션을 1 번 이전에 선택하면 에러를 발생시킵니다.
     char option_;
     std::set<PreprocessOption> options;
     while (true) {
         std::cout << "[Step 1] 사용할 전처리 옵션을 선택하세요. q를 입력해 설정을 종료합니다.:\n";
         std::cout << "1 - QWERTY -> 한글 변환\n";
-        std::cout << "2 - 표준 발음 적용\n";
-        std::cout << "3 - 초성 추출\n";
-        std::cout << "4 - 로마자 변환\n";
+        std::cout << "2 - 오타 재조합\n";
+        std::cout << "3 - 표준 발음 적용\n";
+        std::cout << "4 - 초성 추출\n";
+        std::cout << "5 - 로마자 변환\n";
         std::cout << "q - 설정 종료\n";
 
         std::string options_line;

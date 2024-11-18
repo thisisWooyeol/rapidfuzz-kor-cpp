@@ -2,6 +2,7 @@
 
 #include "assemble/assemble.hpp"
 #include "convertQwertyToAlphabet/convertQwertyToAlphabet.hpp"
+#include "disassemble/disassemble.hpp"
 #include "getChoseong/getChoseong.hpp"
 #include "numberToHangulMixed/numberToHangulMixed.hpp"
 #include "romanize/romanize.hpp"
@@ -34,6 +35,7 @@ void HangulPreprocessor::printSettings()
     for (const auto& option : settings_) {
         switch (option) {
         case PreprocessOption::ConvertQwertyToHangul: std::cout << "  QWERTY -> 한글 변환\n"; break;
+        case PreprocessOption::ReassembleHangul: std::cout << "  오타 재조합\n"; break;
         case PreprocessOption::ApplyStandardPronunciation: std::cout << "  표준 발음 적용\n"; break;
         case PreprocessOption::ExtractChoseong: std::cout << "  초성 추출\n"; break;
         case PreprocessOption::RomanizeHangul: std::cout << "  로마자 변환\n"; break;
@@ -45,13 +47,14 @@ void HangulPreprocessor::printSettings()
  * @brief 입력 문자열을 설정된 전처리 옵션에 따라 변환합니다.
  * @remark 효과적인 전처리를 위해 다음 전처리 옵션을 권장합니다:
  * 1. ConvertQwertyToHangul
- * 2. ApplyStandardPronunciation
- * 3. ExtractChoseong
- * 4. RomanizeHangul
+ * 2. ReassembleHangul
+ * 3. ApplyStandardPronunciation
+ * 4. ExtractChoseong
+ * 5. RomanizeHangul
  */
-std::wstring HangulPreprocessor::preprocess(const std::wstring& input)
+HangulType HangulPreprocessor::preprocess(const HangulType& input)
 {
-    std::wstring result = input;
+    HangulType result = input;
     if (log_level_ == LogLevel::Debug) {
         std::cout << "\n[DEBUG] 입력: " << wstring_to_utf8(result) << "\n";
     }
@@ -59,6 +62,7 @@ std::wstring HangulPreprocessor::preprocess(const std::wstring& input)
     for (const auto& option : settings_) {
         switch (option) {
         case PreprocessOption::ConvertQwertyToHangul: result = convertQwertyToHangul(result); break;
+        case PreprocessOption::ReassembleHangul: result = reassembleHangul(result); break;
         case PreprocessOption::ApplyStandardPronunciation: result = applyStandardPronunciation(result); break;
         case PreprocessOption::ExtractChoseong: result = extractChoseong(result); break;
         case PreprocessOption::RomanizeHangul: result = romanizeHangul(result); break;
@@ -68,6 +72,7 @@ std::wstring HangulPreprocessor::preprocess(const std::wstring& input)
             std::cout << "[DEBUG] 전처리 옵션: ";
             switch (option) {
             case PreprocessOption::ConvertQwertyToHangul: std::cout << "QWERTY -> 한글 변환\n"; break;
+            case PreprocessOption::ReassembleHangul: std::cout << "오타 재조합\n"; break;
             case PreprocessOption::ApplyStandardPronunciation: std::cout << "표준 발음 적용\n"; break;
             case PreprocessOption::ExtractChoseong: std::cout << "초성 추출\n"; break;
             case PreprocessOption::RomanizeHangul: std::cout << "로마자 변환\n"; break;
@@ -79,22 +84,33 @@ std::wstring HangulPreprocessor::preprocess(const std::wstring& input)
     return result;
 }
 
-std::wstring HangulPreprocessor::convertQwertyToHangul(const std::wstring& input)
+HangulType HangulPreprocessor::convertQwertyToHangul(const HangulType& input)
 {
     return RapidFuzz::Utils::Hangul::ConvertQwertyToAlphabet::convertQwertyToHangul(input);
 }
 
-std::wstring HangulPreprocessor::extractChoseong(const std::wstring& input)
+HangulType HangulPreprocessor::reassembleHangul(const HangulType& input)
 {
-    return RapidFuzz::Utils::Hangul::GetChoseong::getChoseong(input);
+    HangulType result = RapidFuzz::Utils::Hangul::Disassemble::disassemble(input);
+
+    std::vector<HangulType> characters;
+    for (const auto& ch : result) {
+        characters.push_back(HangulType(1, ch));
+    }
+    return RapidFuzz::Utils::Hangul::Assemble::assemble(characters);
 }
 
-std::wstring HangulPreprocessor::applyStandardPronunciation(const std::wstring& input)
+HangulType HangulPreprocessor::applyStandardPronunciation(const HangulType& input)
 {
     return RapidFuzz::Utils::Hangul::StandardPronunciation::standardizePronunciation(input);
 }
 
-std::wstring HangulPreprocessor::romanizeHangul(const std::wstring& input)
+HangulType HangulPreprocessor::extractChoseong(const HangulType& input)
+{
+    return RapidFuzz::Utils::Hangul::GetChoseong::getChoseong(input);
+}
+
+HangulType HangulPreprocessor::romanizeHangul(const HangulType& input)
 {
     return RapidFuzz::Utils::Hangul::Romanize::romanize(input);
 }
