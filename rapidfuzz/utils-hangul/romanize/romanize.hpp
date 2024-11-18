@@ -1,12 +1,6 @@
 #ifndef ROMANIZE_HPP
 #define ROMANIZE_HPP
 
-#include "_internal/utils.hpp"
-#include "assemble/assemble.hpp"
-#include "canBe/canBe.hpp"
-#include "constants.hpp"
-#include "disassembleCompleteCharacter/disassembleCompleteCharacter.hpp"
-#include "standardPronunciation/standardPronunciation.hpp"
 #include <string>
 
 namespace RapidFuzz {

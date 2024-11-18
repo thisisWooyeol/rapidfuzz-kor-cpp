@@ -1,4 +1,6 @@
 #include "assemble.hpp"
+#include "_internal/hangul.hpp"
+#include "disassemble/disassemble.hpp"
 
 namespace RapidFuzz {
 namespace Utils {

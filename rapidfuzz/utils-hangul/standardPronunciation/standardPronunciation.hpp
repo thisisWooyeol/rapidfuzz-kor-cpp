@@ -1,25 +1,9 @@
 #ifndef STANDARD_PRONUNCIATION_HPP
 #define STANDARD_PRONUNCIATION_HPP
 
-#include "_internal/hangul.hpp" // Includes isHangulAlphabet, isHangulCharacter
-#include "_internal/utils.hpp"
-#include "combineCharacter/combineCharacter.hpp"
-#include "disassembleCompleteCharacter/disassembleCompleteCharacter.hpp"
 #include "rules/rules.types.hpp" // Include Nullable, Syllables
 #include <string>
 #include <vector>
-
-// Include transformation rule headers
-#include "./rules/transform12th.hpp"
-#include "./rules/transform13And14th.hpp"
-#include "./rules/transform16th.hpp"
-#include "./rules/transform17th.hpp"
-#include "./rules/transform18th.hpp"
-#include "./rules/transform19th.hpp"
-#include "./rules/transform20th.hpp"
-#include "./rules/transform9And10And11th.hpp"
-#include "./rules/transformHardConversion.hpp"
-#include "./rules/transformNLAssimilation.hpp"
 
 using namespace RapidFuzz::Utils::Hangul::StandardPronunciation::Rules;
 

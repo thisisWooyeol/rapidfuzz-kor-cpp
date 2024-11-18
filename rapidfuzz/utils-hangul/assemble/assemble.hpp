@@ -1,8 +1,6 @@
 #ifndef ASSEMBLE_HPP
 #define ASSEMBLE_HPP
 
-#include "_internal/hangul.hpp"
-#include "disassemble/disassemble.hpp"
 #include <string>
 #include <vector>
 

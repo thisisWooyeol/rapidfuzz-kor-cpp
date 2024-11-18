@@ -1,8 +1,6 @@
 #ifndef NUMBER_TO_HANGUL_HPP
 #define NUMBER_TO_HANGUL_HPP
 
-#include "_internal/constants.hpp"
-#include <stdexcept>
 #include <string>
 
 namespace RapidFuzz {

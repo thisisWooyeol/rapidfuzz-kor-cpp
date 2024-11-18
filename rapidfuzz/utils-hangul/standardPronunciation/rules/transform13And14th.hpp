@@ -1,10 +1,9 @@
 #ifndef TRANSFORM_13_AND_14TH_HPP
 #define TRANSFORM_13_AND_14TH_HPP
 
-#include "../constants.hpp"
 #include "rules.types.hpp"
-#include "rules.utils.hpp"
 #include <string>
+#include <unordered_map>
 
 namespace RapidFuzz {
 namespace Utils {

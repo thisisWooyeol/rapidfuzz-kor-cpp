@@ -1,7 +1,6 @@
 #ifndef DAYS_HPP
 #define DAYS_HPP
 
-#include "constants.hpp"
 #include <string>
 
 namespace RapidFuzz {

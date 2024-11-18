@@ -1,5 +1,7 @@
 #include "transform17th.hpp"
+#include "../constants.hpp"
 #include "_internal/utils.hpp"
+#include "rules.utils.hpp"
 #include <stdexcept>
 
 namespace RapidFuzz {

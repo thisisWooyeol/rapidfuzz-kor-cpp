@@ -1,4 +1,6 @@
 #include "josa.hpp"
+#include "_internal/constants.hpp"
+#include "_internal/utils.hpp"
 #include "disassembleCompleteCharacter/disassembleCompleteCharacter.hpp"
 #include "hasBatchim/hasBatchim.hpp"
 #include <algorithm> // For std::find

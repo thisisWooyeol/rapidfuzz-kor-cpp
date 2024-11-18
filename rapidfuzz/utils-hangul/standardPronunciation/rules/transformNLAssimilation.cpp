@@ -1,4 +1,6 @@
 #include "transformNLAssimilation.hpp"
+#include "../constants.hpp"
+#include "_internal/utils.hpp"
 
 namespace RapidFuzz {
 namespace Utils {

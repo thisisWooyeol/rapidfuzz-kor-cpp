@@ -1,7 +1,6 @@
 #ifndef NUMBER_TO_HANGUL_MIXED_HPP
 #define NUMBER_TO_HANGUL_MIXED_HPP
 
-#include "_internal/constants.hpp"
 #include <optional>
 #include <string>
 

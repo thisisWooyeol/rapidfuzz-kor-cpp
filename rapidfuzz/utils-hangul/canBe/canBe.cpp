@@ -1,4 +1,6 @@
 #include "canBe.hpp"
+#include "_internal/constants.hpp"
+#include "_internal/utils.hpp"
 
 namespace RapidFuzz {
 namespace Utils {

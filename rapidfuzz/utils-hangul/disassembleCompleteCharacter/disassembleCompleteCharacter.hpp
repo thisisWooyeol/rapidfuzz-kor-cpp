@@ -1,7 +1,6 @@
 #ifndef DISASSEMBLE_COMPLETE_CHARACTER_HPP
 #define DISASSEMBLE_COMPLETE_CHARACTER_HPP
 
-#include "_internal/constants.hpp"
 #include <optional>
 #include <string>
 

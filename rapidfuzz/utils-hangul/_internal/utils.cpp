@@ -1,7 +1,4 @@
 #include "utils.hpp"
-#include <algorithm>
-#include <locale>
-#include <stdexcept>
 
 namespace RapidFuzz {
 namespace Utils {

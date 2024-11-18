@@ -1,8 +1,5 @@
 #include "numberToHangulMixed.hpp"
-#include <algorithm>
-#include <iomanip>
-#include <locale>
-#include <sstream>
+#include "_internal/constants.hpp"
 #include <vector>
 
 namespace RapidFuzz {
