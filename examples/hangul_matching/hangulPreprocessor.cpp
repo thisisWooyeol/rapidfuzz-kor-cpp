@@ -52,6 +52,9 @@ void HangulPreprocessor::printSettings()
 std::wstring HangulPreprocessor::preprocess(const std::wstring& input)
 {
     std::wstring result = input;
+    if (log_level_ == LogLevel::Debug) {
+        std::cout << "\n[DEBUG] 입력: " << wstring_to_utf8(result) << "\n";
+    }
 
     for (const auto& option : settings_) {
         switch (option) {
@@ -69,7 +72,7 @@ std::wstring HangulPreprocessor::preprocess(const std::wstring& input)
             case PreprocessOption::ExtractChoseong: std::cout << "초성 추출\n"; break;
             case PreprocessOption::RomanizeHangul: std::cout << "로마자 변환\n"; break;
             }
-            std::cout << "[DEBUG] 결과: " << wstring_to_utf8(result) << "\n\n";
+            std::cout << "[DEBUG] 결과: " << wstring_to_utf8(result) << "\n";
         }
     }
 
