@@ -1,34 +1,21 @@
 #ifndef GET_CHOSEONG_CONSTANTS_HPP
 #define GET_CHOSEONG_CONSTANTS_HPP
 
-#include "_internal/constants.hpp"
-#include <array>
 #include <string>
-#include <unordered_map>
 
 namespace RapidFuzz {
 namespace Utils {
 namespace Hangul {
 namespace GetChoseong {
 
-// Define the JasoHangulNFD struct
-struct JasoHangulNFD {
-    wchar_t START_CHOSEONG;  // 'ㄱ'
-    wchar_t START_JUNGSEONG; // 'ㅏ'
-    wchar_t START_JONGSEONG; // 'ㄱ'
-    wchar_t END_CHOSEONG;    // 'ㅎ'
-    wchar_t END_JUNGSEONG;   // 'ㅣ'
-    wchar_t END_JONGSEONG;   // 'ㅎ'
-};
-
-// Initialize JASO_HANGUL_NFD struct from _JASO_HANGUL_NFD array
-inline const JasoHangulNFD JASO_HANGUL_NFD = {
-    _Internal::_JASO_HANGUL_NFD[0], // START_CHOSEONG: 'ㄱ'
-    _Internal::_JASO_HANGUL_NFD[1], // START_JUNGSEONG: 'ㅏ'
-    _Internal::_JASO_HANGUL_NFD[2], // START_JONGSEONG: 'ㄱ'
-    _Internal::_JASO_HANGUL_NFD[3], // END_CHOSEONG: 'ㅎ'
-    _Internal::_JASO_HANGUL_NFD[4], // END_JUNGSEONG: 'ㅣ'
-    _Internal::_JASO_HANGUL_NFD[5]  // END_JONGSEONG: 'ㅎ'
+// Define the JasoHangulNFD struct with constants
+struct JASO_HANGUL_NFD {
+    static constexpr wchar_t START_CHOSEONG = L'\u1100';  // 'ᄀ' U+1100
+    static constexpr wchar_t START_JUNGSEONG = L'\u1161'; // 'ᅡ' U+1161
+    static constexpr wchar_t START_JONGSEONG = L'\u11A8'; // 'ᆨ' U+11A8
+    static constexpr wchar_t END_CHOSEONG = L'\u1112';    // 'ᄒ' U+1112
+    static constexpr wchar_t END_JUNGSEONG = L'\u1175';   // 'ᅵ' U+1175
+    static constexpr wchar_t END_JONGSEONG = L'\u11C2';   // 'ᇂ' U+11C2
 };
 
 } // namespace GetChoseong
