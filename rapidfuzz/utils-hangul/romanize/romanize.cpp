@@ -1,4 +1,11 @@
 #include "romanize.hpp"
+#include "_internal/hangul.hpp"
+#include "_internal/utils.hpp"
+#include "assemble/assemble.hpp"
+#include "canBe/canBe.hpp"
+#include "constants.hpp"
+#include "disassembleCompleteCharacter/disassembleCompleteCharacter.hpp"
+#include "standardPronunciation/standardPronunciation.hpp"
 
 namespace RapidFuzz {
 namespace Utils {

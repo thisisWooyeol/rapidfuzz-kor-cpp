@@ -1,6 +1,6 @@
 #include "combineCharacter.hpp"
-#include <algorithm>
-#include <stdexcept>
+#include "_internal/constants.hpp"
+#include "canBe/canBe.hpp"
 
 namespace RapidFuzz {
 namespace Utils {

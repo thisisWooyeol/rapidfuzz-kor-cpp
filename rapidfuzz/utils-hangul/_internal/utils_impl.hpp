@@ -2,7 +2,6 @@
 #define UTILS_IMPL_HPP
 
 #include "utils.hpp"
-#include <algorithm>
 
 namespace RapidFuzz {
 namespace Utils {

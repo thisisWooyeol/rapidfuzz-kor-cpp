@@ -1,4 +1,5 @@
 #include "disassembleCompleteCharacter.hpp"
+#include "_internal/constants.hpp"
 
 namespace RapidFuzz {
 namespace Utils {

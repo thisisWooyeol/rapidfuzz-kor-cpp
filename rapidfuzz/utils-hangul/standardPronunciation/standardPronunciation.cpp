@@ -1,5 +1,22 @@
 #include "standardPronunciation.hpp"
 
+#include "_internal/hangul.hpp" // Includes isHangulAlphabet, isHangulCharacter
+#include "_internal/utils.hpp"
+#include "combineCharacter/combineCharacter.hpp"
+#include "disassembleCompleteCharacter/disassembleCompleteCharacter.hpp"
+
+// Include transformation rule headers
+#include "./rules/transform12th.hpp"
+#include "./rules/transform13And14th.hpp"
+#include "./rules/transform16th.hpp"
+#include "./rules/transform17th.hpp"
+#include "./rules/transform18th.hpp"
+#include "./rules/transform19th.hpp"
+#include "./rules/transform20th.hpp"
+#include "./rules/transform9And10And11th.hpp"
+#include "./rules/transformHardConversion.hpp"
+#include "./rules/transformNLAssimilation.hpp"
+
 #include <unordered_map>
 
 namespace RapidFuzz {

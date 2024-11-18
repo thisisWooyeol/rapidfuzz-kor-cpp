@@ -1,8 +1,6 @@
 #ifndef COMBINE_CHARACTER_HPP
 #define COMBINE_CHARACTER_HPP
 
-#include "_internal/constants.hpp"
-#include "canBe/canBe.hpp"
 #include <functional>
 #include <string>
 #include <unordered_map>

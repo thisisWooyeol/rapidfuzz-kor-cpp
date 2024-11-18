@@ -1,4 +1,9 @@
 #include "removeLastCharacter.hpp"
+#include "_internal/constants.hpp"
+#include "_internal/utils.hpp"
+#include "canBe/canBe.hpp"
+#include "combineCharacter/combineCharacter.hpp"
+#include "disassemble/disassemble.hpp"
 
 namespace RapidFuzz {
 namespace Utils {

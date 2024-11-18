@@ -1,5 +1,6 @@
 #include "days.hpp"
 #include "_internal/utils.hpp"
+#include "constants.hpp"
 #include <stdexcept>
 
 namespace RapidFuzz {

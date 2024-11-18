@@ -1,4 +1,5 @@
 #include "transform20th.hpp"
+#include "_internal/utils.hpp"
 
 namespace RapidFuzz {
 namespace Utils {

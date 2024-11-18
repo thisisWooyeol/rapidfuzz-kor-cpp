@@ -1,10 +1,7 @@
 #ifndef HANGUL_HPP
 #define HANGUL_HPP
 
-#include <cassert>
-#include <optional>
 #include <string>
-#include <vector>
 
 namespace RapidFuzz {
 namespace Utils {

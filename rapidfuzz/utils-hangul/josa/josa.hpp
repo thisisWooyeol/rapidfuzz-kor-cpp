@@ -1,8 +1,7 @@
 #ifndef JOSA_HPP
 #define JOSA_HPP
 
-#include "_internal/constants.hpp"
-#include "_internal/utils.hpp"
+#include <array>
 #include <optional>
 #include <string>
 

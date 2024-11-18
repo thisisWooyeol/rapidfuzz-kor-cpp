@@ -1,7 +1,6 @@
 #ifndef HAS_BATCHIM_HPP
 #define HAS_BATCHIM_HPP
 
-#include "_internal/constants.hpp"
 #include <optional>
 #include <string>
 

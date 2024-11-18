@@ -1,8 +1,6 @@
 #ifndef TRANSFORM_NL_ASSIMILATION_HPP
 #define TRANSFORM_NL_ASSIMILATION_HPP
 
-#include "../constants.hpp"
-#include "_internal/utils.hpp"
 #include "rules.types.hpp"
 #include <string>
 

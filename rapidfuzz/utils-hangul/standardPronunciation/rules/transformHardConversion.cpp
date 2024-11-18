@@ -1,4 +1,6 @@
 #include "transformHardConversion.hpp"
+#include "../constants.hpp"
+#include "_internal/utils.hpp"
 
 namespace RapidFuzz {
 namespace Utils {

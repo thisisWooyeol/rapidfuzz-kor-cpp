@@ -1,9 +1,7 @@
 #ifndef TRANSFORM_16TH_HPP
 #define TRANSFORM_16TH_HPP
 
-#include "../constants.hpp"
 #include "rules.types.hpp"
-#include "rules.utils.hpp"
 #include <string>
 
 namespace RapidFuzz {

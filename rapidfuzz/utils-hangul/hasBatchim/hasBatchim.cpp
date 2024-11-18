@@ -1,7 +1,5 @@
 #include "hasBatchim.hpp"
-#include <codecvt> // For codecvt_utf8_utf16 if needed
-#include <locale>
-#include <stdexcept>
+#include "_internal/constants.hpp"
 
 namespace RapidFuzz {
 namespace Utils {

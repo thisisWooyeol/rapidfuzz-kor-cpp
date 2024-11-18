@@ -1,4 +1,5 @@
 #include "numberToHangul.hpp"
+#include "_internal/constants.hpp"
 #include <algorithm>
 #include <vector>
 
