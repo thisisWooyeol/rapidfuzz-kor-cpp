@@ -6,6 +6,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 enable_testing() # Initialize CTest
 
+# Set the path to the ICU library (Bad practice, but it's a quick way to get it working)
+set(ICU_INCLUDE_DIRS "/opt/homebrew/opt/icu4c/include")
+set(ICU_LIBRARIES
+    "/opt/homebrew/opt/icu4c/lib/libicuuc.dylib"
+    "/opt/homebrew/opt/icu4c/lib/libicui18n.dylib"
+    "/opt/homebrew/opt/icu4c/lib/libicudata.dylib"
+)
+
 # Find or Fetch Catch2
 find_package(Catch2 3 QUIET)
 if (Catch2_FOUND)
@@ -57,7 +65,7 @@ foreach(source_file ${ALL_SOURCES})
     endif()
 endforeach()
 
-# For debugging: Print the list of source files (Added lines)
+# For debugging: Print the list of source files
 message(STATUS "List of source files:")
 foreach(source_file ${SOURCES})
     message(STATUS "${source_file}")
@@ -72,6 +80,7 @@ target_include_directories(RapidFuzzUtilsHangul PUBLIC
     ${CMAKE_BINARY_DIR}/_deps/catch2-build/generated-includes 
     ${CMAKE_BINARY_DIR}/_deps/catch2-src/src
 )
+target_include_directories(RapidFuzzUtilsHangul PUBLIC ${ICU_INCLUDE_DIRS})
 
 # Function to add tests
 function(utils_hangul_add_test test_file_path)
@@ -79,7 +88,7 @@ function(utils_hangul_add_test test_file_path)
     string(REPLACE ".test" "" test_name ${test_name}) # Remove '.test' from the name
 
     add_executable(${test_name}.test ${test_file_path})
-    target_link_libraries(${test_name}.test PRIVATE RapidFuzzUtilsHangul Catch2::Catch2WithMain)
+    target_link_libraries(${test_name}.test PRIVATE RapidFuzzUtilsHangul Catch2::Catch2WithMain ${ICU_LIBRARIES})
 
     if (RAPIDFUZZ_ENABLE_LINTERS)
         target_link_libraries(${test_name}.test PRIVATE project_warnings)
