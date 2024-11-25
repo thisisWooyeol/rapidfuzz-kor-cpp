@@ -8,6 +8,7 @@ build/
 *.o
 *.out
 .vs/
+.DS_Store
 
 CMakeCache.txt
 CMakeFiles
