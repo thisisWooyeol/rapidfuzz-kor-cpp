@@ -12,7 +12,7 @@ namespace Romanize {
 // ---------------------------------------
 // Middle Vowel (중성) Alphabet Pronunciations
 // ---------------------------------------
-inline const std::unordered_map<wchar_t, std::wstring> JUNGSEONG_ALPHABET_PRONUNCIATION = {
+inline const std::unordered_map<wchar_t, std::wstring> 중성_알파벳_발음 = {
     // ------- 단모음
     {L'ㅏ', L"a"},
     {L'ㅓ', L"eo"},
@@ -41,7 +41,7 @@ inline const std::unordered_map<wchar_t, std::wstring> JUNGSEONG_ALPHABET_PRONUN
 // ---------------------------------------
 // Initial Consonant (초성) Alphabet Pronunciations
 // ---------------------------------------
-inline const std::unordered_map<wchar_t, std::wstring> CHOSEONG_ALPHABET_PRONUNCIATION = {
+inline const std::unordered_map<wchar_t, std::wstring> 초성_알파벳_발음 = {
     // ------- 파열음
     {L'ㄱ', L"g"},
     {L'ㄲ', L"kk"},
@@ -71,7 +71,7 @@ inline const std::unordered_map<wchar_t, std::wstring> CHOSEONG_ALPHABET_PRONUNC
 // ---------------------------------------
 // Final Consonant (종성) Alphabet Pronunciations
 // ---------------------------------------
-inline const std::unordered_map<std::wstring, std::wstring> JONGSEONG_ALPHABET_PRONUNCIATION = {
+inline const std::unordered_map<std::wstring, std::wstring> 종성_알파벳_발음 = {
     {L"ㄱ", L"k"}, {L"ㄴ", L"n"}, {L"ㄷ", L"t"},  {L"ㄹ", L"l"},
     {L"ㅁ", L"m"}, {L"ㅂ", L"p"}, {L"ㅇ", L"ng"}, {L"", L""}, // No final consonant
 };
